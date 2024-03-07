@@ -18,9 +18,6 @@ class ApiVacanciesHh(AbstractApi):
     def __init__(self):
         self.hh_vacancies = []
 
-    def hh_vacancies(self):
-        return self.hh_vacancies
-
     def get_vacancies(self, job_name: str):
         for number in range(20):
             url = f"https://api.hh.ru/vacancies?per_page=100&page={number}"

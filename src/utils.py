@@ -101,9 +101,8 @@ def user_interaction():
     top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
     print_vacancies(top_vacancies)
 
-    user_answer = input("Хотите сохранить эти вакансии в файл?(введите: да/нет)")
-
     while True:
+        user_answer = input("Хотите сохранить эти вакансии в файл?(введите: да/нет)")
         if user_answer in ("да", "lf"):
             j1 = JSONSaver()
 
@@ -115,5 +114,3 @@ def user_interaction():
         elif user_answer in ("нет", "ytn"):
             print("Вакансии не сохранены")
             break
-        else:
-            user_answer = input("Введите, пожалуйста, да или нет")

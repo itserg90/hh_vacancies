@@ -18,6 +18,9 @@ class ApiVacanciesHh(AbstractApi):
     def __init__(self):
         self.hh_vacancies = []
 
+    def hh_vacancies(self):
+        return self.hh_vacancies
+
     def get_vacancies(self, job_name: str):
         for number in range(20):
             url = f"https://api.hh.ru/vacancies?per_page=100&page={number}"
@@ -25,7 +28,7 @@ class ApiVacanciesHh(AbstractApi):
             if result.status_code == 200:
                 self.filter_vacancies_by_name(job_name, result.json())
 
-    def filter_vacancies_by_name(self, job_name, vacancies):
+    def filter_vacancies_by_name(self, job_name: str, vacancies: dict):
         for vacancy in vacancies["items"]:
             if job_name.lower() in vacancy["name"].lower():
                 if vacancy["salary"] and vacancy["salary"]["currency"] == "RUR" or not vacancy["salary"]:

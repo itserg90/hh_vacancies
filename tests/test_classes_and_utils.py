@@ -5,16 +5,16 @@ from src.class_vacancy import Vacancy
 from src.utils import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies, user_interaction
 
 
-def test_user_interaction(monkeypatch, json_vacancies):
-    def mock_get(*args, **kwargs):
+def test_user_interaction(monkeypatch, vacancies_of_objects):
+    def mock_get(*args):
         pass
 
-    def mock_hh():
-        return json_vacancies
+    def mock_hh(*args, **kwargs):
+        return vacancies_of_objects
 
     monkeypatch.setattr("src.class_api.ApiVacanciesHh.get_vacancies", mock_get)
-    monkeypatch.setattr("src.class_api.ApiVacanciesHh.hh_vacancies", mock_hh)
-    monkeypatch.setattr("sys.stdin", io.StringIO("python\n3\n\n100000\nn\nнет"))
+    monkeypatch.setattr("src.class_vacancy.Vacancy.cast_to_object_list", mock_hh)
+    monkeypatch.setattr("sys.stdin", io.StringIO("python\nthree\n3\n\n100000\nn\nнет"))
 
     user_interaction()
 

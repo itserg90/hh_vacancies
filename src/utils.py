@@ -25,14 +25,23 @@ def get_vacancies_by_salary(vacancies: list, salary: str) -> list:
     current_vacancies = []
     current_salary = re.split(r"\D", salary)
     user_salary_from = int(current_salary[0])
+    user_salary_to = int(current_salary[-1])
+
+    if user_salary_from >= user_salary_to:
+        raise ValueError
+
     for vacancy in vacancies:
         if not vacancy.salary == {"from": 0, "to": 0}:
             salary_from = vacancy.salary["from"]
             salary_to = vacancy.salary["to"]
-            if salary_from and user_salary_from <= salary_from:
+            if (salary_from and salary_to) and (
+                    salary_from <= user_salary_from <= salary_to or salary_from <= user_salary_to <= salary_to):
                 current_vacancies.append(vacancy)
-            elif salary_to and user_salary_from <= salary_to:
+            elif (salary_from and not salary_to) and user_salary_from <= salary_from <= user_salary_to:
                 current_vacancies.append(vacancy)
+            elif (not salary_from and salary_to) and user_salary_from <= salary_to <= user_salary_to:
+                current_vacancies.append(vacancy)
+
     return current_vacancies
 
 

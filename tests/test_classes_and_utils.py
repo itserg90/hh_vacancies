@@ -52,13 +52,13 @@ def test_get_vacancies_by_salary(vacancies_of_objects):
     current_list = get_vacancies_by_salary(vacancies_of_objects, "")
     assert len(current_list) == 4
 
-    current_list = get_vacancies_by_salary(vacancies_of_objects, "50000")
-    assert len(current_list) == 3
+    current_list = get_vacancies_by_salary(vacancies_of_objects, "20000-40000")
+    assert len(current_list) == 0
 
-    current_list = get_vacancies_by_salary(vacancies_of_objects, "70000")
+    current_list = get_vacancies_by_salary(vacancies_of_objects, "40000-70000")
     assert len(current_list) == 2
 
-    current_list = get_vacancies_by_salary(vacancies_of_objects, "110000")
+    current_list = get_vacancies_by_salary(vacancies_of_objects, "110000-200000")
     assert len(current_list) == 0
 
 
@@ -82,6 +82,6 @@ def test_user_interaction(monkeypatch, vacancies_of_objects):
 
     monkeypatch.setattr("src.class_api.ApiVacanciesHh.get_vacancies", mock_get)
     monkeypatch.setattr("src.class_vacancy.Vacancy.cast_to_object_list", mock_hh)
-    monkeypatch.setattr("sys.stdin", io.StringIO("python\nthree\n3\n\n100000\nn\nнет"))
+    monkeypatch.setattr("sys.stdin", io.StringIO("python\nthree\n3\n\n50000-100000\nn\nнет"))
 
     user_interaction()

@@ -11,9 +11,10 @@ class AbstractVacancy(ABC):
 class Vacancy(AbstractVacancy):
     """Класс для создания объектов"""
 
-    __slots__ = ("name", "link", "salary", "requirements")
+    __slots__ = ("id", "name", "link", "salary", "requirements")
 
-    def __init__(self, name: str, link: str, salary: (dict, None), requirements: str):
+    def __init__(self, id_vacancies, name: str, link: str, salary: (dict, None), requirements: str):
+        self.id = id_vacancies
         self.name = name
         self.link = link
 
@@ -45,7 +46,8 @@ class Vacancy(AbstractVacancy):
 
         current_list = []
         for vacancy in hh_vacancies:
-            current_list.append(cls(vacancy["name"],
+            current_list.append(cls(vacancy["id"],
+                                    vacancy["name"],
                                     vacancy["url"],
                                     vacancy["salary"],
                                     vacancy["requirement"]))
@@ -70,4 +72,4 @@ class Vacancy(AbstractVacancy):
         return salary_1 < salary_2
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.name}, {self.link}, {self.salary}, {self.requirements})"
+        return f"{self.__class__.__name__}({self.id}, {self.name}, {self.link}, {self.salary}, {self.requirements})"

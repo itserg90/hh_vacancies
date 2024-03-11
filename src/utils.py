@@ -5,8 +5,9 @@ from src.class_vacancy import Vacancy
 import re
 
 
-def filter_vacancies(vacancies: list, words: list):
+def filter_vacancies(vacancies: list, words: list) -> list:
     """Фильтр по ключевым словам в описании"""
+
     if not words:
         return vacancies
     current_vacancies = []
@@ -16,15 +17,16 @@ def filter_vacancies(vacancies: list, words: list):
     return current_vacancies
 
 
-def get_vacancies_by_salary(vacancies: list, salary: str):
+def get_vacancies_by_salary(vacancies: list, salary: str) -> list:
     """Фильтр по желаемой зарплате"""
+
     if not salary:
         return vacancies
     current_vacancies = []
     current_salary = re.split(r"\D", salary)
     user_salary_from = int(current_salary[0])
     for vacancy in vacancies:
-        if not vacancy.salary == "Зарплата не указана":
+        if not vacancy.salary == {"from": 0, "to": 0}:
             salary_from = vacancy.salary["from"]
             salary_to = vacancy.salary["to"]
             if salary_from and user_salary_from <= salary_from:
@@ -34,25 +36,25 @@ def get_vacancies_by_salary(vacancies: list, salary: str):
     return current_vacancies
 
 
-def sort_vacancies(vacancies: list):
+def sort_vacancies(vacancies: list) -> list:
     """Сортировка вакансий по зарплате"""
-    return sorted(vacancies,
-                  key=lambda x: x.salary["from"] if not x.salary == "Зарплата не указана" and x.salary["from"] else 0,
-                  reverse=True)
+
+    return sorted(vacancies, reverse=True)
 
 
-def get_top_vacancies(vacancies: list, top_n: int):
+def get_top_vacancies(vacancies: list, top_n: int) -> list:
     """Для получения желаемого количества вакансий"""
+
     return vacancies[:top_n]
 
 
-def print_vacancies(vacancies: list):
+def print_vacancies(vacancies: list) -> None:
     """Удлобный вывод вакансий для пользователя"""
 
     for number, vacancy in enumerate(vacancies):
         print(f"\n{number + 1}. {vacancy.name}")
         print(f"Ссылка: {vacancy.link}")
-        if vacancy.salary == "Зарплата не указана":
+        if vacancy.salary == {"from": 0, "to": 0}:
             print("Зарплата не указана")
         elif not vacancy.salary["to"]:
             print(f"Зарплата от {vacancy.salary['from']} руб.")
@@ -63,7 +65,7 @@ def print_vacancies(vacancies: list):
         print(f"Описание: {vacancy.requirements}")
 
 
-def user_interaction():
+def user_interaction() -> None:
     """Функция для взаимодействия с пользователем"""
 
     search_query = input("Введите поисковый запрос: ")

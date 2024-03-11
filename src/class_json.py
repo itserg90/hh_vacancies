@@ -46,11 +46,13 @@ class JSONSaver(AbstractJSONSaver):
 
         with open(self.__filename, "r", encoding="utf-8") as file:
             vacancies = json.load(file)
-            if vacancy.id not in [vac.id for vac in vacancies]:
-                vacancies.append({"name": vacancy.name,
+            if vacancy.id not in [vac["id"] for vac in vacancies]:
+                vacancies.append({"id": vacancy.id,
+                                  "name": vacancy.name,
                                   "url": vacancy.link,
                                   "salary": vacancy.salary,
                                   "requirements": vacancy.requirements})
+            print(len(vacancies))
             with open(self.__filename, "w", encoding="utf-8") as file_1:
                 json.dump(vacancies, file_1)
 

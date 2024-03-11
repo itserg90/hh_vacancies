@@ -46,10 +46,11 @@ class JSONSaver(AbstractJSONSaver):
 
         with open(self.__filename, "r", encoding="utf-8") as file:
             vacancies = json.load(file)
-            vacancies.append({"name": vacancy.name,
-                              "url": vacancy.link,
-                              "salary": vacancy.salary,
-                              "requirements": vacancy.requirements})
+            if vacancy.id not in [vac.id for vac in vacancies]:
+                vacancies.append({"name": vacancy.name,
+                                  "url": vacancy.link,
+                                  "salary": vacancy.salary,
+                                  "requirements": vacancy.requirements})
             with open(self.__filename, "w", encoding="utf-8") as file_1:
                 json.dump(vacancies, file_1)
 
@@ -59,8 +60,8 @@ class JSONSaver(AbstractJSONSaver):
         with open(self.__filename, "r", encoding="utf-8") as file:
             new_vacancies = []
             vacancies = json.load(file)
-            for vac in vacancies:
-                if not vacancy.name.lower() == vac["name"].lower():
-                    new_vacancies.append(vac)
+            for current_vacancy in vacancies:
+                if not vacancy.id == current_vacancy.id:
+                    new_vacancies.append(current_vacancy)
             with open(self.__filename, "w", encoding="utf-8") as file_1:
                 json.dump(new_vacancies, file_1)

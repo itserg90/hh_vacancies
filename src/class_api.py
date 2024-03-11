@@ -38,7 +38,8 @@ class ApiVacanciesHh(AbstractApi):
 
         for vacancy in vacancies["items"]:
             if vacancy["salary"] and vacancy["salary"]["currency"] == "RUR" or not vacancy["salary"]:
-                self.hh_vacancies.append({"name": vacancy["name"],
+                self.hh_vacancies.append({"id": vacancy["id"],
+                                          "name": vacancy["name"],
                                           "url": vacancy["alternate_url"],
                                           "salary": vacancy["salary"],
                                           "requirement": vacancy["snippet"]["requirement"]})

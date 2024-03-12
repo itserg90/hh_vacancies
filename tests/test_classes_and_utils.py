@@ -1,8 +1,10 @@
+import pytest
 import io
 
 from src.class_api import ApiVacanciesHh
 from src.class_vacancy import Vacancy
 from src.utils import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies, user_interaction
+from src.my_exceptions import ExceptionSalary
 
 
 def test_filter_vacancies_by_name(api_json_vacancies):
@@ -60,6 +62,11 @@ def test_get_vacancies_by_salary(vacancies_of_objects):
 
     current_list = get_vacancies_by_salary(vacancies_of_objects, "110000-200000")
     assert len(current_list) == 0
+
+
+def test_get_vacancies_by_salary_exception_salary(vacancies_of_objects):
+    with pytest.raises(ExceptionSalary):
+        get_vacancies_by_salary(vacancies_of_objects, "100000-50000")
 
 
 def test_sort_vacancies(vacancies_of_objects):

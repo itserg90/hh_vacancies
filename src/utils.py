@@ -1,6 +1,7 @@
 from src.class_api import ApiVacanciesHh
 from src.class_json import JSONSaver
 from src.class_vacancy import Vacancy
+from src.my_exceptions import ExceptionSalary
 
 import re
 
@@ -28,7 +29,7 @@ def get_vacancies_by_salary(vacancies: list, salary: str) -> list:
     user_salary_to = int(current_salary[-1])
 
     if user_salary_from >= user_salary_to:
-        raise ValueError
+        raise ExceptionSalary("Первое число должно быть меньше второго")
 
     for vacancy in vacancies:
         if not vacancy.salary == {"from": 0, "to": 0}:
@@ -106,6 +107,9 @@ def user_interaction() -> None:
             break
         except ValueError:
             print('Введите диапазон в формате: "число" - "число"(например: 100000 - 150000)')
+            salary_range = input('Введите диапазон зарплат(в формате: "число" - "число"): ')
+        except ExceptionSalary:
+            print('Первое число должно быть меньше второго(например: 100000 - 150000)')
             salary_range = input('Введите диапазон зарплат(в формате: "число" - "число"): ')
 
     sorted_vacancies = sort_vacancies(ranged_vacancies)

@@ -22,12 +22,20 @@ class ApiVacanciesHh(AbstractApi):
         """Получаем запрос из сервера"""
 
         range_pages = 0
-        response = requests.get("https://api.hh.ru/vacancies").json()["pages"]
 
-        if response > 19:
+        response = requests.get(
+            f"https://api.hh.ru/vacancies?per_page=100&page={range_pages}&text={job_name.lower()}&search_field=name")
+
+        if response.status_code == 200:
+            self.filter_vacancies_by_name(response.json())
+
+        pages = response.json()["pages"]
+        if pages > 19:
             range_pages = 20
+        else:
+            range_pages = pages
 
-        for number in range(range_pages):
+        for number in range(1, range_pages):
             url = f"https://api.hh.ru/vacancies?per_page=100&page={number}&text={job_name.lower()}&search_field=name"
             result = requests.get(url)
             if result.status_code == 200:

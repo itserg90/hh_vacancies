@@ -52,7 +52,6 @@ class JSONSaver(AbstractJSONSaver):
                                   "url": vacancy.link,
                                   "salary": vacancy.salary,
                                   "requirements": vacancy.requirements})
-            print(len(vacancies))
             with open(self.__filename, "w", encoding="utf-8") as file_1:
                 json.dump(vacancies, file_1)
 
